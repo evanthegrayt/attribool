@@ -1,4 +1,7 @@
 # Attribool
+[![Build Status](https://img.shields.io/endpoint.svg?url=https%3A%2F%2Factions-badge.atrox.dev%2Fevanthegrayt%2Fattribool%2Fbadge%3Fref%3Dmaster&style=flat)](https://actions-badge.atrox.dev/evanthegrayt/attribool/goto?ref=master)
+[![Gem Version](https://badge.fury.io/rb/attribool.svg)](https://badge.fury.io/rb/attribool)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 > THIS IS STILL A WORK IN PROGRESS. Everything works, but not everything is
 > documented.
 
