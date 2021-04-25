@@ -2,8 +2,7 @@
 [![Build Status](https://img.shields.io/endpoint.svg?url=https%3A%2F%2Factions-badge.atrox.dev%2Fevanthegrayt%2Fattribool%2Fbadge%3Fref%3Dmaster&style=flat)](https://actions-badge.atrox.dev/evanthegrayt/attribool/goto?ref=master)
 [![Gem Version](https://badge.fury.io/rb/attribool.svg)](https://badge.fury.io/rb/attribool)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-> THIS IS STILL A WORK IN PROGRESS. Everything works, but not everything is
-> documented.
+> Pre-release version. Everything works, but not everything is documented.
 
 Ruby macros for creating boolean methods for attributes that may or may not be
 booleans themselves. This is done via coercion based on truthiness. For example,
@@ -73,7 +72,7 @@ class Person
 
   attr_accessor :name
   bool_reader :name, method: :named?
-  bool_reader :name, prefix: :has?
+  bool_reader :name, prefix: :has
 end
 
 person = Person.new
