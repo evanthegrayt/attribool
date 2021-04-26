@@ -43,6 +43,9 @@ class TestAttribool < Test::Unit::TestCase
     @person.age = 18
     assert(@person.adult?)
     assert_equal(true, @person.adult?)
+    refute(@person.common_name?)
+    @person.name = 'John Smith'
+    assert(@person.common_name?)
   end
 
   def test_bool_writer

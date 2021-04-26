@@ -1,8 +1,9 @@
 require 'simplecov'
-require 'test/unit'
-require_relative '../lib/attribool'
 
 SimpleCov.start { add_filter %r{^/test/} }
+
+require 'test/unit'
+require_relative '../lib/attribool'
 
 module TestHelper
   class Person
@@ -22,5 +23,8 @@ module TestHelper
     bool_writer :tall, strict: true
     bool_reader :name, prefix: :has
     bool_reader :homeowner, allow_nil: false
+    bool_reader :name,
+      method: :common_name?,
+      condition: ->(n) { ["John Smith", "Jane Smith"].include?(n) }
   end
 end
