@@ -19,10 +19,8 @@ Gem::Specification.new do |spec|
 
   spec.metadata['allowed_push_host'] = 'https://rubygems.org'
   spec.metadata['homepage_uri'] = spec.homepage
-  # spec.metadata['source_code_uri'] =
-  #   'https://github.com/evanthegrayt/attribool'
-  # spec.metadata['documentation_uri'] =
-  #   'https://evanthegrayt.github.io/attribool/doc/index.html'
+  spec.metadata['source_code_uri'] = 'https://github.com/evanthegrayt/attribool'
+  spec.metadata['documentation_uri'] = 'https://evanthegrayt.github.io/attribool/'
 
   spec.files = `git ls-files -z`.split("\x0").reject do |f|
     f.match(%r{^(test|spec|features)/})
