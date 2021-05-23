@@ -2,6 +2,7 @@
 [![Build Status](https://img.shields.io/endpoint.svg?url=https%3A%2F%2Factions-badge.atrox.dev%2Fevanthegrayt%2Fattribool%2Fbadge%3Fref%3Dmaster&style=flat)](https://actions-badge.atrox.dev/evanthegrayt/attribool/goto?ref=master)
 [![Gem Version](https://badge.fury.io/rb/attribool.svg)](https://badge.fury.io/rb/attribool)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
 > Pre-release version. Everything works, but not everything is documented.
 
 Ruby macros for creating boolean methods for attributes that may or may not be
@@ -21,6 +22,8 @@ with lambdas via the `condition:` keyword argument.
 Macros also exist for `bool_writer` and `bool_accessor`. When a writer
 method is defined, the value will always be coerced into a boolean before
 setting the attribute.
+
+You can read the documentation [here](https://evanthegrayt.github.io/attribool/).
 
 ## Installation
 #### Via Gemfile

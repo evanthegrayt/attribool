@@ -3,7 +3,7 @@
 ##
 # Adds macros and methods for dealing with boolean attributes.
 module Attribool
-  def self.included(klass)
+  def self.included(klass) # :nodoc:
     klass.extend(ClassMethods)
   end
 
