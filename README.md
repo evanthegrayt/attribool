@@ -134,6 +134,29 @@ person.living?
 # Be aware -- if you pass anything truthy, it will be coerced to true!
 ```
 
+#### Standard bool_writer
+In most cases where you'd use a `bool_writer`, you'd probably want to just use
+`bool_accessor`. This example is to show that, even when using `bool_accessor`,
+the value is coerced to a boolean when the value is set by `bool_writer`.
+```ruby
+require 'attribool'
+
+class Person
+  include Attribool
+
+  attr_reader :living
+  bool_writer :living
+end
+
+person = Person.new
+person.living
+# nil
+
+person.living = 'blah'
+person.living
+# true, because 'blah' was coerced into a boolean because strings are truthy.
+```
+
 ## Reporting Bugs and Requesting Features
 If you have an idea or find a bug, please [create an
 issue](https://github.com/evanthegrayt/attribool/issues/new). Just make sure
@@ -144,4 +167,4 @@ Request.
 I do these projects for fun, and I enjoy knowing that they're helpful to people.
 Consider starring [the repository](https://github.com/evanthegrayt/attribool)
 if you like it! If you love it, follow me [on
-Github](https://github.com/evanthegrayt)!
+GitHub](https://github.com/evanthegrayt)!
