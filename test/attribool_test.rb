@@ -2,7 +2,7 @@
 
 require_relative 'test_helper'
 
-class TestAttribool < Test::Unit::TestCase
+class AttriboolTest < Test::Unit::TestCase
   def setup
     @person = TestHelper::Person.new
   end

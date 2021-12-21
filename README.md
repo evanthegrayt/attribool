@@ -3,21 +3,24 @@
 [![Gem Version](https://badge.fury.io/rb/attribool.svg)](https://badge.fury.io/rb/attribool)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-> Pre-release version. Everything works, but not everything is documented.
-
 Ruby macros for creating boolean methods for attributes that may or may not be
-booleans themselves. This is done via coercion based on truthiness. For example,
-if you have an attribute of `@name`, and you want to know if `@name` is not
-`nil`, you can declare `bool_reader :name`, which will define the method
-`name?`. This method will return true if `@name` is truthy.
+booleans themselves. This is done via coercion based on truthiness.
+
+For example, if you have an attribute of `@name`, and you want to know if
+`@name` is not `nil`, you can declare `bool_reader :name`, which will define the
+method `name?`. This method will return true if `@name` is truthy.
 
 The `bool_reader` also comes with some handy options. For example, you can
 [define a method name](#a-bool_reader-with-method-name-or-prefix) that makes
-more sense.  Using the same example, as above, if your attribute is `@name`, but
+more sense. Using the same example as above, if your attribute is `@name`, but
 you'd like for your boolean method to be called `named?`, you can use
 `bool_reader :name, method: :named?`.
 [Conditionals](#a-bool_reader-with-method-name-and-conditional) can also be set
 with lambdas via the `condition:` keyword argument.
+
+The first argument is always the instance variable to check for truthiness.
+Because of this, it is also valid syntax to use `bool_reader :@name`, if it
+makes more sense to you.
 
 Macros also exist for `bool_writer` and `bool_accessor`. When a writer
 method is defined, the value will always be coerced into a boolean before
@@ -49,10 +52,12 @@ bundle exec rake install
 require 'attribool'
 
 class Person
-  include Attribool
+  extend Attribool
 
   attr_accessor :name
   bool_reader :name
+  # OR
+  bool_reader :@name
 end
 
 person = Person.new
@@ -71,7 +76,7 @@ person.name?
 require 'attribool'
 
 class Person
-  include Attribool
+  extend Attribool
 
   attr_accessor :name
   bool_reader :name, method: :named?
@@ -94,7 +99,7 @@ person.has_name?
 require 'attribool'
 
 class Person
-  include Attribool
+  extend Attribool
 
   attr_accessor :age
   # In the condition lambdas, the argument refers to the attribute's value.
@@ -119,7 +124,7 @@ person.adult?
 require 'attribool'
 
 class Person
-  include Attribool
+  extend Attribool
 
   bool_accessor :living
 end
@@ -142,7 +147,7 @@ the value is coerced to a boolean when the value is set by `bool_writer`.
 require 'attribool'
 
 class Person
-  include Attribool
+  extend Attribool
 
   attr_reader :living
   bool_writer :living
