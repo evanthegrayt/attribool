@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta charset="UTF-8">
+
+<title>module Attribool - RDoc Documentation</title>
+
+<script type="text/javascript">
+  var rdoc_rel_prefix = "./";
+  var index_rel_prefix = "./";
+</script>
+
+<script src="./js/navigation.js" defer></script>
+<script src="./js/search.js" defer></script>
+<script src="./js/search_index.js" defer></script>
+<script src="./js/searcher.js" defer></script>
+<script src="./js/darkfish.js" defer></script>
+
+<link href="./css/fonts.css" rel="stylesheet">
+<link href="./css/rdoc.css" rel="stylesheet">
+
+
+<body id="top" role="document" class="module">
+<nav role="navigation">
+  <div id="project-navigation">
+    <div id="home-section" role="region" title="Quick navigation" class="nav-section">
+  <h2>
+    <a href="./index.html" rel="home">Home</a>
+  </h2>
+
+  <div id="table-of-contents-navigation">
+    <a href="./table_of_contents.html#pages">Pages</a>
+    <a href="./table_of_contents.html#classes">Classes</a>
+    <a href="./table_of_contents.html#methods">Methods</a>
+  </div>
+</div>
+
+    <div id="search-section" role="search" class="project-section initially-hidden">
+  <form action="#" method="get" accept-charset="utf-8">
+    <div id="search-field-wrapper">
+      <input id="search-field" role="combobox" aria-label="Search"
+             aria-autocomplete="list" aria-controls="search-results"
+             type="text" name="search" placeholder="Search" spellcheck="false"
+             title="Type to search, Up and Down to navigate, Enter to load">
+    </div>
+
+    <ul id="search-results" aria-label="Search Results"
+        aria-busy="false" aria-expanded="false"
+        aria-atomic="false" class="initially-hidden"></ul>
+  </form>
+</div>
+
+  </div>
+
+  
+
+  <div id="class-metadata">
+    
+    
+    
+    
+    
+<!-- Method Quickref -->
+<div id="method-list-section" class="nav-section">
+  <h3>Methods</h3>
+
+  <ul class="link-list" role="directory">
+    <li ><a href="#method-i-bool_accessor">#bool_accessor</a>
+    <li ><a href="#method-i-bool_reader">#bool_reader</a>
+    <li ><a href="#method-i-bool_writer">#bool_writer</a>
+  </ul>
+</div>
+
+  </div>
+</nav>
+
+<main role="main" aria-labelledby="module-Attribool">
+  <h1 id="module-Attribool" class="module">
+    module Attribool
+  </h1>
+
+  <section class="description">
+    
+<p>Adds macros and methods for dealing with boolean attributes.</p>
+
+  </section>
+
+  <section id="5Buntitled-5D" class="documentation-section">
+
+
+    <section class="constants-list">
+      <header>
+        <h3>Constants</h3>
+      </header>
+      <dl>
+        <dt id="VERSION">VERSION
+        <dd>
+      </dl>
+    </section>
+
+
+
+     <section id="public-instance-5Buntitled-5D-method-details" class="method-section">
+       <header>
+         <h3>Public Instance Methods</h3>
+       </header>
+
+      <div id="method-i-bool_accessor" class="method-detail ">
+        <div class="method-heading">
+          <span class="method-name">bool_accessor</span><span
+            class="method-args">(attribute)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+
+        <div class="method-description">
+          <p>Creates a simple reader and writer for booleans. This should only be used when the attribute should only ever be <code>true</code> or <code>false</code>.</p>
+
+<p>@param [Symbol, String] attribute</p>
+
+          <div class="method-source-code" id="bool_accessor-source">
+            <pre><span class="ruby-comment"># File lib/attribool.rb, line 64</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">bool_accessor</span>(<span class="ruby-identifier">attribute</span>)
+  <span class="ruby-identifier">bool_reader</span>(<span class="ruby-identifier">attribute</span>)
+  <span class="ruby-identifier">bool_writer</span>(<span class="ruby-identifier">attribute</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div>
+        </div>
+
+
+      </div>
+
+      <div id="method-i-bool_reader" class="method-detail ">
+        <div class="method-heading">
+          <span class="method-name">bool_reader</span><span
+            class="method-args">( attribute, allow_nil: true, condition: nil, prefix: nil, method: nil )</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+
+        <div class="method-description">
+          <p>Creates a method that returns a boolean for attributes that may or may not be booleans themselves.</p>
+
+<p>@param [Symbol, String] attribute</p>
+
+<p>@kwarg [Boolean] allow_nil:</p>
+
+<p>@kwarg [Lambda] condition:</p>
+
+<p>@kwarg [Symbol, String] method:</p>
+
+<p>@kwarg [Symbol, String] prefix:</p>
+
+          <div class="method-source-code" id="bool_reader-source">
+            <pre><span class="ruby-comment"># File lib/attribool.rb, line 21</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">bool_reader</span>(
+  <span class="ruby-identifier">attribute</span>,
+  <span class="ruby-value">allow_nil:</span> <span class="ruby-keyword">true</span>,
+  <span class="ruby-value">condition:</span> <span class="ruby-keyword">nil</span>,
+  <span class="ruby-value">prefix:</span> <span class="ruby-keyword">nil</span>,
+  <span class="ruby-value">method:</span> <span class="ruby-keyword">nil</span>
+)
+  <span class="ruby-identifier">attribute</span> = <span class="ruby-identifier">attribute</span>.<span class="ruby-identifier">to_s</span>
+  <span class="ruby-identifier">attribute</span> = <span class="ruby-identifier">attribute</span>.<span class="ruby-identifier">start_with?</span>(<span class="ruby-string">&#39;@&#39;</span>) <span class="ruby-operator">?</span> <span class="ruby-identifier">attribute</span> <span class="ruby-operator">:</span> <span class="ruby-node">&quot;@#{attribute}&quot;</span>
+  <span class="ruby-identifier">method</span> <span class="ruby-operator">||=</span> <span class="ruby-node">&quot;#{attribute.delete_prefix(&#39;@&#39;)}?&quot;</span>
+  <span class="ruby-identifier">method</span> = <span class="ruby-node">&quot;#{prefix}_#{method}&quot;</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">prefix</span>
+  <span class="ruby-identifier">define_method</span>(<span class="ruby-identifier">method</span>) <span class="ruby-keyword">do</span>
+    <span class="ruby-identifier">ivar</span> = <span class="ruby-identifier">instance_variable_get</span>(<span class="ruby-identifier">attribute</span>)
+    <span class="ruby-identifier">raise</span> <span class="ruby-constant">TypeError</span>, <span class="ruby-node">&quot;#{attribute} is nil&quot;</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">ivar</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-operator">!</span><span class="ruby-identifier">allow_nil</span>
+
+    <span class="ruby-identifier">condition</span> <span class="ruby-operator">?</span> <span class="ruby-identifier">condition</span>.<span class="ruby-identifier">call</span>(<span class="ruby-identifier">ivar</span>) <span class="ruby-operator">:</span> <span class="ruby-operator">!</span><span class="ruby-operator">!</span>(<span class="ruby-identifier">ivar</span>)
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+        </div>
+
+
+      </div>
+
+      <div id="method-i-bool_writer" class="method-detail ">
+        <div class="method-heading">
+          <span class="method-name">bool_writer</span><span
+            class="method-args">(attribute, strict: false)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+
+        <div class="method-description">
+          <p>Creates a writer for boolean attributes. Always coerces to boolean based on truthiness.</p>
+
+<p>@param [Symbol, String] attribute</p>
+
+<p>@kwarg [Boolean] strict:</p>
+
+          <div class="method-source-code" id="bool_writer-source">
+            <pre><span class="ruby-comment"># File lib/attribool.rb, line 47</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">bool_writer</span>(<span class="ruby-identifier">attribute</span>, <span class="ruby-value">strict:</span> <span class="ruby-keyword">false</span>)
+  <span class="ruby-identifier">attribute</span> = <span class="ruby-identifier">attribute</span>.<span class="ruby-identifier">to_s</span>
+  <span class="ruby-identifier">attribute</span> = <span class="ruby-identifier">attribute</span>.<span class="ruby-identifier">start_with?</span>(<span class="ruby-string">&#39;@&#39;</span>) <span class="ruby-operator">?</span> <span class="ruby-identifier">attribute</span> <span class="ruby-operator">:</span> <span class="ruby-node">&quot;@#{attribute}&quot;</span>
+  <span class="ruby-identifier">define_method</span>(<span class="ruby-node">&quot;#{attribute.delete_prefix(&#39;@&#39;)}=&quot;</span>) <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">v</span><span class="ruby-operator">|</span>
+    <span class="ruby-keyword">if</span> <span class="ruby-identifier">strict</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-operator">!</span>[<span class="ruby-constant">TrueClass</span>, <span class="ruby-constant">FalseClass</span>].<span class="ruby-identifier">include?</span>(<span class="ruby-identifier">v</span>.<span class="ruby-identifier">class</span>)
+      <span class="ruby-identifier">raise</span> <span class="ruby-constant">ArgumentError</span>, <span class="ruby-string">&#39;Argument must be a boolean&#39;</span>
+    <span class="ruby-keyword">end</span>
+
+    <span class="ruby-identifier">instance_variable_set</span>(<span class="ruby-identifier">attribute</span>, <span class="ruby-operator">!</span><span class="ruby-operator">!</span><span class="ruby-identifier">v</span>)
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+        </div>
+
+
+      </div>
+
+    </section>
+
+  </section>
+</main>
+
+
+<footer id="validator-badges" role="contentinfo">
+  <p><a href="https://validator.w3.org/check/referer">Validate</a>
+  <p>Generated by <a href="https://ruby.github.io/rdoc/">RDoc</a> 6.3.1.
+  <p>Based on <a href="http://deveiate.org/projects/Darkfish-RDoc/">Darkfish</a> by <a href="http://deveiate.org">Michael Granger</a>.
+</footer>
+
