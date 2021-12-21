@@ -2,7 +2,7 @@ require_relative 'lib/attribool/version'
 
 Gem::Specification.new do |spec|
   spec.name          = 'attribool'
-  spec.version       = Attribool::Version.to_s
+  spec.version       = Attribool::VERSION
   spec.authors       = ['Evan Gray']
   spec.email         = 'evanthegrayt@vivaldi.net'
   spec.license       = 'MIT'

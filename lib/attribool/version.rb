@@ -15,20 +15,38 @@ module Attribool
     # Minor version.
     #
     # @return [Integer]
-    MINOR = 0
+    MINOR = 1
 
     ##
     # Patch version.
     #
     # @return [Integer]
-    PATCH = 3
+    PATCH = 0
+
+    ##
+    # Version as +[MAJOR, MINOR, PATCH]+
+    #
+    # @return [Array]
+    def self.to_a
+      [MAJOR, MINOR, PATCH]
+    end
 
     ##
     # Version as +MAJOR.MINOR.PATCH+
     #
     # @return [String]
     def self.to_s
-      "#{MAJOR}.#{MINOR}.#{PATCH}"
+      to_a.join('.')
+    end
+
+    ##
+    # Version as +{major: MAJOR, minor: MINOR, patch: PATCH}+
+    #
+    # @return [Hash]
+    def self.to_h
+      %i[major minor patch].zip(to_a).to_h
     end
   end
+
+  VERSION = Version.to_s.freeze
 end

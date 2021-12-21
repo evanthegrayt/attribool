@@ -7,7 +7,7 @@ require_relative '../lib/attribool'
 
 module TestHelper
   class Person
-    include Attribool
+    extend Attribool
 
     attr_accessor :name
     attr_accessor :age
@@ -15,9 +15,10 @@ module TestHelper
     attr_accessor :living
     attr_accessor :homeowner
 
-    bool_accessor :male
-    bool_writer :living
-    bool_reader :hair
+    # NOTE: Ensure both the sytax with and without the `@` prefix is tested.
+    bool_accessor :@male
+    bool_writer :@living
+    bool_reader :@hair
     bool_reader :name, method: :named?
     bool_reader :age, method: :adult?, condition: ->(i) { i >= 18 }
     bool_writer :tall, strict: true
