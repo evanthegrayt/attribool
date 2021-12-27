@@ -16,8 +16,8 @@ module TestHelper
     attr_accessor :homeowner
 
     # NOTE: Ensure both the sytax with and without the `@` prefix is tested.
-    bool_accessor :@male
-    bool_writer :@living
+    bool_accessor '@male'
+    bool_writer 'living'
     bool_reader :@hair
     bool_reader :name, method: :named?
     bool_reader :age, method: :adult?, condition: ->(i) { i >= 18 }

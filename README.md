@@ -57,7 +57,9 @@ class Person
   attr_accessor :name
   bool_reader :name
   # OR
-  bool_reader :@name
+  # bool_reader :@name
+  # bool_reader 'name'
+  # bool_reader '@name'
 end
 
 person = Person.new
@@ -91,7 +93,7 @@ person.has_name?
 person.name = 'John Smith'
 person.named?
 person.has_name?
-# true, because @name is truthy.
+# Both true, because @name is truthy.
 ```
 
 #### A bool_reader with method name and conditional
