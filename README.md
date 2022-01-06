@@ -11,10 +11,10 @@ For example, if you have an attribute of `@name`, and you want to know if
 method `name?`. This method will return true if `@name` is truthy.
 
 The `bool_reader` also comes with some handy options. For example, you can
-[define a method name](#a-bool_reader-with-method-name-or-prefix) that makes
+[define a method name](#a-bool_reader-with-method-name) that makes
 more sense. Using the same example as above, if your attribute is `@name`, but
 you'd like for your boolean method to be called `named?`, you can use
-`bool_reader :name, method: :named?`.
+`bool_reader :name, method_name: :named?`.
 [Conditionals](#a-bool_reader-with-method-name-and-conditional) can also be set
 with lambdas via the `condition:` keyword argument.
 
@@ -73,7 +73,7 @@ person.name?
 # true, because @name is truthy.
 ```
 
-#### A bool_reader with method name or prefix
+#### A bool_reader with method name
 ```ruby
 require 'attribool'
 
@@ -81,19 +81,16 @@ class Person
   extend Attribool
 
   attr_accessor :name
-  bool_reader :name, method: :named?
-  bool_reader :name, prefix: :has
+  bool_reader :name, method_name: :named?
 end
 
 person = Person.new
 person.named?
-person.has_name?
 # false, because @name is nil.
 
 person.name = 'John Smith'
 person.named?
-person.has_name?
-# Both true, because @name is truthy.
+# true, because @name is truthy.
 ```
 
 #### A bool_reader with method name and conditional
@@ -105,7 +102,7 @@ class Person
 
   attr_accessor :age
   # In the condition lambdas, the argument refers to the attribute's value.
-  bool_reader :age, method: :adult?, condition: ->(a) { a.to_i >= 18 }
+  bool_reader :age, method_name: :adult?, condition: ->(a) { a.to_i >= 18 }
 end
 
 person = Person.new
@@ -119,6 +116,34 @@ person.adult?
 person.age = 20
 person.adult?
 # true, because @age is greater than 18.
+```
+
+#### Assigning more than one bool_reader with a method name at once
+```ruby
+require 'attribool'
+
+class Person
+  extend Attribool
+
+  attr_accessor :name, :age
+  # When creating multiple readers at once, if you want to specify a
+  # method_name, you must provide a Proc as the argument, where the attribute
+  # name is the argument.
+  bool_reader :age, :name, method_name: ->(m) { "has_#{m}?" }
+end
+
+person = Person.new
+person.has_age?
+person.has_name?
+# Both false, because @age and @name are nil.
+
+person.age = 10
+person.has_age?
+# true, because @age is not nil.
+
+person.name = 'Bob'
+person.has_name?
+# true, because @name is not nil.
 ```
 
 #### Standard bool_accessor
