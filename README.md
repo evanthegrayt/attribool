@@ -4,7 +4,8 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 Ruby macros for creating boolean methods for attributes that may or may not be
-booleans themselves. This is done via coercion based on truthiness.
+booleans themselves. This is done via either coercion based on truthiness, or a
+user-defined condition.
 
 For example, if you have an attribute of `@name`, and you want to know if
 `@name` is not `nil`, you can declare `bool_reader :name`, which will define the

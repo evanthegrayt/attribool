@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require_relative 'attribool/version'
-require_relative 'attribool/method_name'
 require_relative 'attribool/attribute'
 
 ##
@@ -24,9 +23,10 @@ module Attribool
     condition: nil,
     method_name: nil
   )
-    MethodName.validate(method_name, attributes.size)
-    attributes.map { |a| Attribute.new(a) }.each do |attribute|
-      define_method(MethodName.new(attribute.name, method_name).name) do
+    Attribute.validate_method_name(attributes.size, method_name)
+
+    attributes.map { |a| Attribute.new(a, method_name) }.each do |attribute|
+      define_method(attribute.reader) do
         value = instance_variable_get(attribute.ivar)
         raise TypeError, "#{attribute.ivar} is nil" if value.nil? && !allow_nil
 
@@ -44,7 +44,7 @@ module Attribool
   # @kwarg [Boolean] strict
   def bool_writer(*attributes, strict: false)
     attributes.map { |a| Attribute.new(a) }.each do |attribute|
-      define_method("#{attribute.name}=") do |v|
+      define_method(attribute.writer) do |v|
         if strict && ![TrueClass, FalseClass].include?(v.class)
           raise ArgumentError, 'Argument must be a boolean'
         end
