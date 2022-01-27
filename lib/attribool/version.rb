@@ -21,7 +21,7 @@ module Attribool
     # Patch version.
     #
     # @return [Integer]
-    PATCH = 0
+    PATCH = 2
 
     ##
     # Version as +[MAJOR, MINOR, PATCH]+
@@ -48,5 +48,9 @@ module Attribool
     end
   end
 
+  ##
+  # The version, as a string.
+  #
+  # @return [String]
   VERSION = Version.to_s.freeze
 end
