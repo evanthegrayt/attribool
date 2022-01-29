@@ -23,7 +23,7 @@ module Attribool
     condition: nil,
     method_name: nil
   )
-    Attribute.validate_method_name(attributes.size, method_name)
+    Attribute.validate_method_name(method_name, attributes.size)
 
     attributes.map { |a| Attribute.new(a, method_name) }.each do |attribute|
       define_method(attribute.reader) do

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'simplecov'
 
 SimpleCov.start { add_filter %r{^/test/} }
@@ -15,7 +17,6 @@ module TestHelper
     attr_accessor :hair
     attr_accessor :homeowner
 
-    # NOTE: Ensure both the sytax with and without the `@` prefix is tested.
     bool_accessor '@male'
     bool_writer 'living'
     bool_reader :@hair
