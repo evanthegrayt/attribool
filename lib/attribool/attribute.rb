@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 ##
 # Abstraction for an attribute to determine its name, reader, writer, and
 # instance variable name.
@@ -26,16 +28,24 @@ class Attribool::Attribute
   # @return [String]
   attr_reader :writer
 
-  ##
-  # Ensures that if multiple attributes are being defined, and +method_name+ is
-  # provided, that +method_name+ is a +Proc+.
-  #
-  # @param [Integer] number_of_attributes
-  #
-  # @param [String, Symbol, Proc] method_name
-  def self.validate_method_name(number_of_attributes, method_name)
-    if number_of_attributes > 1 && method_name && !method_name.is_a?(Proc)
+  class << self
+    ##
+    # Ensures that if multiple attributes are being defined, and +method_name+
+    # is provided, that +method_name+ is a +Proc+.
+    #
+    # @param [Integer] number_of_attributes
+    #
+    # @param [String, Symbol, Proc] method_name
+    def validate_method_name(method_name, number_of_attributes)
+      return if number_of_attributes == 1 || nil_or_proc?(method_name)
+
       raise ArgumentError, "Must use a Proc when creating multiple methods"
+    end
+
+    private
+
+    def nil_or_proc?(method_name) # :nodoc:
+      method_name.nil? || (method_name.is_a?(Proc) && method_name.arity == 1)
     end
   end
 
