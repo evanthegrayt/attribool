@@ -50,11 +50,11 @@ class Attribool::VersionTest < Test::Unit::TestCase
     assert_instance_of(Integer, Attribool::Version::PATCH)
   end
 
-  def gemfile_lock_should_contain_the_current_version
+  def test_gemfile_lock_should_contain_the_current_version
     refute_empty File.readlines(
       File.join(__dir__, '..', '..', 'Gemfile.lock')
     ).grep(
-      /^\s*attribool\s+\(#{Planter::VERSION}\)/
+      /^\s*attribool\s+\(#{Attribool::VERSION}\)/
     )
   end
 end
