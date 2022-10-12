@@ -1,10 +1,26 @@
 # frozen_string_literal: true
 
-require_relative 'attribool/version'
-require_relative 'attribool/attribute'
+require_relative "attribool/version"
+require_relative "attribool/attribute"
 
 ##
 # Adds macros for dealing with boolean attributes.
+#
+# @example
+#   require 'attribool'
+#   class Person
+#     extend Attribool
+#     attr_accessor :name
+#     bool_reader :name
+#   ends
+#   person = Person.new
+#   person.name?
+#   # false, because @name is nil.
+#   person.name = 'John Smith'
+#   person.name
+#   # "John Smith"
+#   person.name?
+#   # true, because @name is truthy.
 module Attribool
   ##
   # Creates methods that return a boolean for attributes that may or may not be
@@ -17,20 +33,16 @@ module Attribool
   # @kwarg [Proc] condition
   #
   # @kwarg [Symbol, String, Proc] method_name
-  def bool_reader(
-    *attributes,
-    allow_nil: true,
-    condition: nil,
-    method_name: nil
-  )
+  def bool_reader(*attributes, allow_nil: true, condition: nil, method_name: nil)
     Attribute.validate_method_name(method_name, attributes.size)
 
     attributes.map { |a| Attribute.new(a, method_name) }.each do |attribute|
       define_method(attribute.reader) do
-        value = instance_variable_get(attribute.ivar)
-        raise TypeError, "#{attribute.ivar} is nil" if value.nil? && !allow_nil
+        instance_variable_get(attribute.ivar).then do |value|
+          raise TypeError, "#{attribute.ivar} is nil" if value.nil? && !allow_nil
 
-        condition ? condition.call(value) : !!(value)
+          condition ? condition.call(value) : !!value
+        end
       end
     end
   end
@@ -46,7 +58,7 @@ module Attribool
     attributes.map { |a| Attribute.new(a) }.each do |attribute|
       define_method(attribute.writer) do |v|
         if strict && ![TrueClass, FalseClass].include?(v.class)
-          raise ArgumentError, 'Argument must be a boolean'
+          raise ArgumentError, "Argument must be a boolean"
         end
 
         instance_variable_set(attribute.ivar, !!v)
