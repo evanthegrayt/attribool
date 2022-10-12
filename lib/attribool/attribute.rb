@@ -37,7 +37,7 @@ class Attribool::Attribute
     #
     # @param [String, Symbol, Proc] method_name
     def validate_method_name(method_name, number_of_attributes)
-      return if number_of_attributes == 1 || nil_or_proc?(method_name)
+      return if number_of_attributes.eql?(1) || nil_or_proc?(method_name)
 
       raise ArgumentError, "Must use a Proc when creating multiple methods"
     end
@@ -45,7 +45,7 @@ class Attribool::Attribute
     private
 
     def nil_or_proc?(method_name) # :nodoc:
-      method_name.nil? || (method_name.is_a?(Proc) && method_name.arity == 1)
+      method_name.nil? || (method_name.is_a?(Proc) && method_name.arity.eql?(1))
     end
   end
 
@@ -58,15 +58,20 @@ class Attribool::Attribute
   # @param [String, Symbol, Proc, nil] reader_name
   def initialize(attribute, reader_name = nil)
     attribute.to_s.tap do |a|
-      @ivar = a.start_with?('@') ? a : "@#{a}"
-      @name = @ivar.delete_prefix('@')
-      @reader =
-        case reader_name
-        when Proc then reader_name.call(name)
-        when nil then "#{name}?"
-        else reader_name.to_s
-        end
+      @ivar = a.start_with?("@") ? a : "@#{a}"
+      @name = @ivar.delete_prefix("@")
+      @reader = determine_reader(reader_name)
       @writer = "#{name}="
+    end
+  end
+
+  private
+
+  def determine_reader(reader_name)
+    case reader_name
+    when Proc then reader_name.call(name)
+    when nil then "#{name}?"
+    else reader_name.to_s
     end
   end
 end

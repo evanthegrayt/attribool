@@ -38,7 +38,7 @@ module Attribool
     #
     # @return [String]
     def to_s
-      to_a.join('.')
+      to_a.join(".")
     end
 
     ##
