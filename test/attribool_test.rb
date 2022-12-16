@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require_relative 'test_helper'
+require_relative "test_helper"
 
 class AttriboolTest < Test::Unit::TestCase
   def setup
@@ -21,7 +21,7 @@ class AttriboolTest < Test::Unit::TestCase
     @person.hair = nil
     refute(@person.hair?)
     assert_equal(false, @person.hair?)
-    @person.hair = 'brown'
+    @person.hair = "brown"
     assert(@person.hair?)
     assert_equal(true, @person.hair?)
   end
@@ -30,10 +30,10 @@ class AttriboolTest < Test::Unit::TestCase
     @person.name = nil
     refute(@person.named?)
     assert_equal(false, @person.named?)
-    @person.name = 'John Smith'
+    @person.name = "John Smith"
     assert(@person.named?)
     assert_equal(true, @person.named?)
-    assert_equal('John Smith', @person.name)
+    assert_equal("John Smith", @person.name)
   end
 
   def test_bool_reader_with_condition
@@ -44,12 +44,12 @@ class AttriboolTest < Test::Unit::TestCase
     assert(@person.adult?)
     assert_equal(true, @person.adult?)
     refute(@person.common_name?)
-    @person.name = 'John Smith'
+    @person.name = "John Smith"
     assert(@person.common_name?)
   end
 
   def test_bool_writer
-    @person.living = 'truthy'
+    @person.living = "truthy"
     assert_equal(true, @person.instance_variable_get(:@living))
   end
 
@@ -60,13 +60,13 @@ class AttriboolTest < Test::Unit::TestCase
   end
 
   def test_bool_writer_with_strict
-    assert_raise(ArgumentError) { @person.tall = 'truthy' }
+    assert_raise(ArgumentError) { @person.tall = "truthy" }
     assert_nothing_raised { @person.tall = true }
   end
 
   def test_bool_accessor
     refute(@person.male?)
-    @person.male = 'truthy'
+    @person.male = "truthy"
     assert_equal(true, @person.instance_variable_get(:@male))
     assert(@person.male?)
   end
