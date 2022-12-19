@@ -84,6 +84,23 @@
     
 <p>Adds macros for dealing with boolean attributes.</p>
 
+<p>@example</p>
+
+<pre>require &quot;attribool&quot;
+class Person
+  extend Attribool
+  attr_accessor :name
+  bool_reader :name
+ends
+person = Person.new
+person.name?
+# false, because @name is nil.
+person.name = &quot;John Smith&quot;
+person.name
+# &quot;John Smith&quot;
+person.name?
+# true, because @name is truthy.</pre>
+
   </section>
 
   <section id="5Buntitled-5D" class="documentation-section">
@@ -121,7 +138,7 @@
 <p>@param [Symbol, String] *attributes</p>
 
           <div class="method-source-code" id="bool_accessor-source">
-            <pre><span class="ruby-comment"># File lib/attribool.rb, line 62</span>
+            <pre><span class="ruby-comment"># File lib/attribool.rb, line 82</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">bool_accessor</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">attributes</span>)
   <span class="ruby-identifier">bool_reader</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">attributes</span>)
   <span class="ruby-identifier">bool_writer</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">attributes</span>)
@@ -135,7 +152,7 @@
       <div id="method-i-bool_reader" class="method-detail ">
         <div class="method-heading">
           <span class="method-name">bool_reader</span><span
-            class="method-args">( *attributes, allow_nil: true, condition: nil, method_name: nil )</span>
+            class="method-args">(*attributes, allow_nil: true, method_name: nil, condition: nil)</span>
           <span class="method-click-advice">click to toggle source</span>
         </div>
 
@@ -151,21 +168,17 @@
 <p>@kwarg [Symbol, String, Proc] method_name</p>
 
           <div class="method-source-code" id="bool_reader-source">
-            <pre><span class="ruby-comment"># File lib/attribool.rb, line 20</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">bool_reader</span>(
-  <span class="ruby-operator">*</span><span class="ruby-identifier">attributes</span>,
-  <span class="ruby-value">allow_nil:</span> <span class="ruby-keyword">true</span>,
-  <span class="ruby-value">condition:</span> <span class="ruby-keyword">nil</span>,
-  <span class="ruby-value">method_name:</span> <span class="ruby-keyword">nil</span>
-)
-  <span class="ruby-constant">Attribute</span>.<span class="ruby-identifier">validate_method_name</span>(<span class="ruby-identifier">method_name</span>, <span class="ruby-identifier">attributes</span>.<span class="ruby-identifier">size</span>)
+            <pre><span class="ruby-comment"># File lib/attribool.rb, line 46</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">bool_reader</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">attributes</span>, <span class="ruby-value">allow_nil:</span> <span class="ruby-keyword">true</span>, <span class="ruby-value">method_name:</span> <span class="ruby-keyword">nil</span>, <span class="ruby-value">condition:</span> <span class="ruby-keyword">nil</span>)
+  <span class="ruby-constant">ValidatorService</span>.<span class="ruby-identifier">call</span>(<span class="ruby-value">:method_name</span>, <span class="ruby-identifier">method_name</span>, <span class="ruby-identifier">attributes</span>.<span class="ruby-identifier">size</span>)
 
-  <span class="ruby-identifier">attributes</span>.<span class="ruby-identifier">map</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">a</span><span class="ruby-operator">|</span> <span class="ruby-constant">Attribute</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">a</span>, <span class="ruby-identifier">method_name</span>) }.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">attribute</span><span class="ruby-operator">|</span>
+  <span class="ruby-constant">AttributeList</span>.<span class="ruby-identifier">build</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">attributes</span>, <span class="ruby-value">method_name:</span> <span class="ruby-identifier">method_name</span>).<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">attribute</span><span class="ruby-operator">|</span>
     <span class="ruby-identifier">define_method</span>(<span class="ruby-identifier">attribute</span>.<span class="ruby-identifier">reader</span>) <span class="ruby-keyword">do</span>
-      <span class="ruby-identifier">value</span> = <span class="ruby-identifier">instance_variable_get</span>(<span class="ruby-identifier">attribute</span>.<span class="ruby-identifier">ivar</span>)
-      <span class="ruby-identifier">raise</span> <span class="ruby-constant">TypeError</span>, <span class="ruby-node">&quot;#{attribute.ivar} is nil&quot;</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">value</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-operator">!</span><span class="ruby-identifier">allow_nil</span>
+      <span class="ruby-identifier">instance_variable_get</span>(<span class="ruby-identifier">attribute</span>.<span class="ruby-identifier">ivar</span>).<span class="ruby-identifier">then</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">value</span><span class="ruby-operator">|</span>
+        <span class="ruby-constant">ValidatorService</span>.<span class="ruby-identifier">call</span>(<span class="ruby-value">:nil_attribute</span>, <span class="ruby-identifier">attribute</span>.<span class="ruby-identifier">ivar</span>, <span class="ruby-identifier">value</span>, <span class="ruby-identifier">allow_nil</span>)
 
-      <span class="ruby-identifier">condition</span> <span class="ruby-operator">?</span> <span class="ruby-identifier">condition</span>.<span class="ruby-identifier">call</span>(<span class="ruby-identifier">value</span>) <span class="ruby-operator">:</span> <span class="ruby-operator">!</span><span class="ruby-operator">!</span>(<span class="ruby-identifier">value</span>)
+        <span class="ruby-constant">Value</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">value</span>, <span class="ruby-identifier">condition</span>).<span class="ruby-identifier">to_boolean</span>
+      <span class="ruby-keyword">end</span>
     <span class="ruby-keyword">end</span>
   <span class="ruby-keyword">end</span>
 <span class="ruby-keyword">end</span></pre>
@@ -190,15 +203,13 @@
 <p>@kwarg [Boolean] strict</p>
 
           <div class="method-source-code" id="bool_writer-source">
-            <pre><span class="ruby-comment"># File lib/attribool.rb, line 45</span>
+            <pre><span class="ruby-comment"># File lib/attribool.rb, line 67</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">bool_writer</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">attributes</span>, <span class="ruby-value">strict:</span> <span class="ruby-keyword">false</span>)
-  <span class="ruby-identifier">attributes</span>.<span class="ruby-identifier">map</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">a</span><span class="ruby-operator">|</span> <span class="ruby-constant">Attribute</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">a</span>) }.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">attribute</span><span class="ruby-operator">|</span>
-    <span class="ruby-identifier">define_method</span>(<span class="ruby-identifier">attribute</span>.<span class="ruby-identifier">writer</span>) <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">v</span><span class="ruby-operator">|</span>
-      <span class="ruby-keyword">if</span> <span class="ruby-identifier">strict</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-operator">!</span>[<span class="ruby-constant">TrueClass</span>, <span class="ruby-constant">FalseClass</span>].<span class="ruby-identifier">include?</span>(<span class="ruby-identifier">v</span>.<span class="ruby-identifier">class</span>)
-        <span class="ruby-identifier">raise</span> <span class="ruby-constant">ArgumentError</span>, <span class="ruby-string">&#39;Argument must be a boolean&#39;</span>
-      <span class="ruby-keyword">end</span>
+  <span class="ruby-constant">AttributeList</span>.<span class="ruby-identifier">build</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">attributes</span>).<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">attribute</span><span class="ruby-operator">|</span>
+    <span class="ruby-identifier">define_method</span>(<span class="ruby-identifier">attribute</span>.<span class="ruby-identifier">writer</span>) <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">value</span><span class="ruby-operator">|</span>
+      <span class="ruby-constant">ValidatorService</span>.<span class="ruby-identifier">call</span>(<span class="ruby-value">:strict_boolean</span>, <span class="ruby-identifier">value</span>, <span class="ruby-identifier">strict</span>)
 
-      <span class="ruby-identifier">instance_variable_set</span>(<span class="ruby-identifier">attribute</span>.<span class="ruby-identifier">ivar</span>, <span class="ruby-operator">!</span><span class="ruby-operator">!</span><span class="ruby-identifier">v</span>)
+      <span class="ruby-identifier">instance_variable_set</span>(<span class="ruby-identifier">attribute</span>.<span class="ruby-identifier">ivar</span>, <span class="ruby-constant">Value</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">value</span>).<span class="ruby-identifier">to_boolean</span>)
     <span class="ruby-keyword">end</span>
   <span class="ruby-keyword">end</span>
 <span class="ruby-keyword">end</span></pre>
@@ -216,7 +227,7 @@
 
 <footer id="validator-badges" role="contentinfo">
   <p><a href="https://validator.w3.org/check/referer">Validate</a>
-  <p>Generated by <a href="https://ruby.github.io/rdoc/">RDoc</a> 6.3.1.
+  <p>Generated by <a href="https://ruby.github.io/rdoc/">RDoc</a> 6.4.0.
   <p>Based on <a href="http://deveiate.org/projects/Darkfish-RDoc/">Darkfish</a> by <a href="http://deveiate.org">Michael Granger</a>.
 </footer>
 
