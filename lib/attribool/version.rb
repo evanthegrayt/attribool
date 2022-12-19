@@ -9,7 +9,7 @@ module Attribool
     # Major version.
     #
     # @return [Integer]
-    MAJOR = 1
+    MAJOR = 2
 
     ##
     # Minor version.
@@ -21,7 +21,7 @@ module Attribool
     # Patch version.
     #
     # @return [Integer]
-    PATCH = 3
+    PATCH = 0
 
     module_function
 

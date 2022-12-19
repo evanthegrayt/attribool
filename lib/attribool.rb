@@ -2,12 +2,18 @@
 
 require_relative "attribool/version"
 require_relative "attribool/attribute"
+require_relative "attribool/reader_name"
+require_relative "attribool/attribute_list"
+require_relative "attribool/validators/validator"
+require_relative "attribool/validators/method_name_validator"
+require_relative "attribool/validators/nil_attribute_validator"
+require_relative "attribool/validators/strict_boolean_validator"
 
 ##
 # Adds macros for dealing with boolean attributes.
 #
 # @example
-#   require 'attribool'
+#   require "attribool"
 #   class Person
 #     extend Attribool
 #     attr_accessor :name
@@ -16,7 +22,7 @@ require_relative "attribool/attribute"
 #   person = Person.new
 #   person.name?
 #   # false, because @name is nil.
-#   person.name = 'John Smith'
+#   person.name = "John Smith"
 #   person.name
 #   # "John Smith"
 #   person.name?
@@ -33,15 +39,15 @@ module Attribool
   # @kwarg [Proc] condition
   #
   # @kwarg [Symbol, String, Proc] method_name
-  def bool_reader(*attributes, allow_nil: true, condition: nil, method_name: nil)
-    Attribute.validate_method_name(method_name, attributes.size)
+  def bool_reader(*attributes, allow_nil: true, method_name: nil, condition: nil)
+    Validators::MethodNameValidator.validate(method_name, attributes.size)
 
-    attributes.map { |a| Attribute.new(a, method_name) }.each do |attribute|
+    AttributeList.new(*attributes, method_name: method_name).each do |attribute|
       define_method(attribute.reader) do
         instance_variable_get(attribute.ivar).then do |value|
-          raise TypeError, "#{attribute.ivar} is nil" if value.nil? && !allow_nil
+          Validators::NilAttributeValidator.validate(attribute.ivar, value, allow_nil)
 
-          condition ? condition.call(value) : !!value
+          !!(condition ? condition.call(value) : value)
         end
       end
     end
@@ -55,13 +61,11 @@ module Attribool
   #
   # @kwarg [Boolean] strict
   def bool_writer(*attributes, strict: false)
-    attributes.map { |a| Attribute.new(a) }.each do |attribute|
-      define_method(attribute.writer) do |v|
-        if strict && ![TrueClass, FalseClass].include?(v.class)
-          raise ArgumentError, "Argument must be a boolean"
-        end
+    AttributeList.new(*attributes).each do |attribute|
+      define_method(attribute.writer) do |value|
+        Validators::StrictBooleanValidator.validate(value, strict)
 
-        instance_variable_set(attribute.ivar, !!v)
+        instance_variable_set(attribute.ivar, !!value)
       end
     end
   end

@@ -20,8 +20,6 @@ you'd like for your boolean method to be called `named?`, you can use
 with lambdas via the `condition:` keyword argument.
 
 The first argument is always the instance variable to check for truthiness.
-Because of this, it is also valid syntax to use `bool_reader :@name`, if it
-makes more sense to you.
 
 Macros also exist for `bool_writer` and `bool_accessor`. When a writer
 method is defined, the value will always be coerced into a boolean before
@@ -32,7 +30,7 @@ You can read the documentation [here](https://evanthegrayt.github.io/attribool/)
 ## Installation
 #### Via Gemfile
 ```ruby
-gem 'attribool'
+gem "attribool"
 ```
 
 #### Via rubygems
@@ -50,24 +48,20 @@ bundle exec rake install
 ## Examples
 #### Standard bool_reader
 ```ruby
-require 'attribool'
+require "attribool"
 
 class Person
   extend Attribool
 
   attr_accessor :name
   bool_reader :name
-  # OR
-  # bool_reader :@name
-  # bool_reader 'name'
-  # bool_reader '@name'
 end
 
 person = Person.new
 person.name?
 # false, because @name is nil.
 
-person.name = 'John Smith'
+person.name = "John Smith"
 person.name
 # "John Smith"
 person.name?
@@ -76,7 +70,7 @@ person.name?
 
 #### A bool_reader with method name
 ```ruby
-require 'attribool'
+require "attribool"
 
 class Person
   extend Attribool
@@ -89,14 +83,14 @@ person = Person.new
 person.named?
 # false, because @name is nil.
 
-person.name = 'John Smith'
+person.name = "John Smith"
 person.named?
 # true, because @name is truthy.
 ```
 
 #### A bool_reader with method name and conditional
 ```ruby
-require 'attribool'
+require "attribool"
 
 class Person
   extend Attribool
@@ -119,9 +113,12 @@ person.adult?
 # true, because @age is greater than 18.
 ```
 
+Note that, the result of the proc will also be coerced into a boolean, so the
+condition can just return a truthy or falsey value.
+
 #### Assigning more than one bool_reader with a method name at once
 ```ruby
-require 'attribool'
+require "attribool"
 
 class Person
   extend Attribool
@@ -142,14 +139,14 @@ person.age = 10
 person.has_age?
 # true, because @age is not nil.
 
-person.name = 'Bob'
+person.name = "Bob"
 person.has_name?
 # true, because @name is not nil.
 ```
 
 #### Standard bool_accessor
 ```ruby
-require 'attribool'
+require "attribool"
 
 class Person
   extend Attribool
@@ -172,7 +169,7 @@ In most cases where you'd use a `bool_writer`, you'd probably want to just use
 `bool_accessor`. This example is to show that, even when using `bool_accessor`,
 the value is coerced to a boolean when the value is set by `bool_writer`.
 ```ruby
-require 'attribool'
+require "attribool"
 
 class Person
   extend Attribool
@@ -185,9 +182,9 @@ person = Person.new
 person.living
 # nil
 
-person.living = 'blah'
+person.living = "blah"
 person.living
-# true, because 'blah' was coerced into a boolean because strings are truthy.
+# true, because "blah" was coerced into a boolean because strings are truthy.
 ```
 
 ## Reporting Bugs and Requesting Features

@@ -1,0 +1,28 @@
+# frozen_string_literal: true
+
+require_relative "../test_helper"
+require_relative "../../lib/attribool/attribute_list"
+
+module Attribool
+  class AttributeListTest < Test::Unit::TestCase
+    def setup
+      @list = Attribool::AttributeList.new(:one, :two, :three)
+    end
+
+    def test_each
+      assert_respond_to(@list, :each)
+      assert_equal(3, @list.each.size)
+      assert_nothing_raised { @list.each(&:itself) }
+    end
+
+    def test_initialize
+      @list.entries.each do |entry|
+        assert_kind_of(Attribool::Attribute, entry)
+      end
+    end
+
+    def test_enumerable
+      assert_includes(@list.class.ancestors, Enumerable)
+    end
+  end
+end
