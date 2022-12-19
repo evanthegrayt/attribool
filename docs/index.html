@@ -70,6 +70,16 @@
   <ul class="link-list">
     <li><a href="./Attribool.html">Attribool</a>
     <li><a href="./Attribool/Attribute.html">Attribool::Attribute</a>
+    <li><a href="./Attribool/AttributeList.html">Attribool::AttributeList</a>
+    <li><a href="./Attribool/ReaderName.html">Attribool::ReaderName</a>
+    <li><a href="./Attribool/ValidatorService.html">Attribool::ValidatorService</a>
+    <li><a href="./Attribool/Validators.html">Attribool::Validators</a>
+    <li><a href="./Attribool/Validators/AttributeListValidator.html">Attribool::Validators::AttributeListValidator</a>
+    <li><a href="./Attribool/Validators/ConditionValidator.html">Attribool::Validators::ConditionValidator</a>
+    <li><a href="./Attribool/Validators/MethodNameValidator.html">Attribool::Validators::MethodNameValidator</a>
+    <li><a href="./Attribool/Validators/NilAttributeValidator.html">Attribool::Validators::NilAttributeValidator</a>
+    <li><a href="./Attribool/Validators/StrictBooleanValidator.html">Attribool::Validators::StrictBooleanValidator</a>
+    <li><a href="./Attribool/Value.html">Attribool::Value</a>
     <li><a href="./Attribool/Version.html">Attribool::Version</a>
   </ul>
 </div>
@@ -88,9 +98,9 @@
 
 <p>For example, if you have an attribute of <code>@name</code>, and you want to know if <code>@name</code> is not <code>nil</code>, you can declare <code>bool_reader :name</code>, which will define the method <code>name?</code>. This method will return true if <code>@name</code> is truthy.</p>
 
-<p>The <code>bool_reader</code> also comes with some handy options. For example, you can <a href="#a-bool_reader-with-method-name">define a method name</a> that makes more sense. Using the same example as above, if your attribute is <code>@name</code>, but you&#39;d like for your boolean method to be called <code>named?</code>, you can use <code>bool_reader :name, method_name: :named?</code>. <a href="#a-bool_reader-with-method-name-and-conditional">Conditionals</a> can also be set with lambdas via the <code>condition:</code> keyword argument.</p>
+<p>The <code>bool_reader</code> also comes with some handy options. For example, you can <a href="#a-bool_reader-with-method-name">define a method name</a> that makes more sense. Using the same example as above, if your attribute is <code>@name</code>, but you’d like for your boolean method to be called <code>named?</code>, you can use <code>bool_reader :name, method_name: :named?</code>. <a href="#a-bool_reader-with-method-name-and-conditional">Conditionals</a> can also be set with lambdas via the <code>condition:</code> keyword argument.</p>
 
-<p>The first argument is always the instance variable to check for truthiness. Because of this, it is also valid syntax to use <code>bool_reader :@name</code>, if it makes more sense to you.</p>
+<p>The first argument is always the instance variable to check for truthiness.</p>
 
 <p>Macros also exist for <code>bool_writer</code> and <code>bool_accessor</code>. When a writer method is defined, the value will always be coerced into a boolean before setting the attribute.</p>
 
@@ -100,7 +110,7 @@
 
 <h4 id="label-Via+Gemfile">Via Gemfile<span><a href="#label-Via+Gemfile">&para;</a> <a href="#top">&uarr;</a></span></h4>
 
-<pre class="ruby"><span class="ruby-identifier">gem</span> <span class="ruby-string">&#39;attribool&#39;</span>
+<pre class="ruby"><span class="ruby-identifier">gem</span> <span class="ruby-string">&quot;attribool&quot;</span>
 </pre>
 
 <h4 id="label-Via+rubygems">Via rubygems<span><a href="#label-Via+rubygems">&para;</a> <a href="#top">&uarr;</a></span></h4>
@@ -118,24 +128,20 @@ bundle exec rake install</pre>
 
 <h4 id="label-Standard+bool_reader">Standard bool_reader<span><a href="#label-Standard+bool_reader">&para;</a> <a href="#top">&uarr;</a></span></h4>
 
-<pre class="ruby"><span class="ruby-identifier">require</span> <span class="ruby-string">&#39;attribool&#39;</span>
+<pre class="ruby"><span class="ruby-identifier">require</span> <span class="ruby-string">&quot;attribool&quot;</span>
 
 <span class="ruby-keyword">class</span> <span class="ruby-constant">Person</span>
   <span class="ruby-identifier">extend</span> <span class="ruby-constant">Attribool</span>
 
   <span class="ruby-identifier">attr_accessor</span> <span class="ruby-value">:name</span>
   <span class="ruby-identifier">bool_reader</span> <span class="ruby-value">:name</span>
-  <span class="ruby-comment"># OR</span>
-  <span class="ruby-comment"># bool_reader :@name</span>
-  <span class="ruby-comment"># bool_reader &#39;name&#39;</span>
-  <span class="ruby-comment"># bool_reader &#39;@name&#39;</span>
 <span class="ruby-keyword">end</span>
 
 <span class="ruby-identifier">person</span> = <span class="ruby-constant">Person</span>.<span class="ruby-identifier">new</span>
 <span class="ruby-identifier">person</span>.<span class="ruby-identifier">name?</span>
 <span class="ruby-comment"># false, because @name is nil.</span>
 
-<span class="ruby-identifier">person</span>.<span class="ruby-identifier">name</span> = <span class="ruby-string">&#39;John Smith&#39;</span>
+<span class="ruby-identifier">person</span>.<span class="ruby-identifier">name</span> = <span class="ruby-string">&quot;John Smith&quot;</span>
 <span class="ruby-identifier">person</span>.<span class="ruby-identifier">name</span>
 <span class="ruby-comment"># &quot;John Smith&quot;</span>
 <span class="ruby-identifier">person</span>.<span class="ruby-identifier">name?</span>
@@ -144,7 +150,7 @@ bundle exec rake install</pre>
 
 <h4 id="label-A+bool_reader+with+method+name">A bool_reader with method name<span><a href="#label-A+bool_reader+with+method+name">&para;</a> <a href="#top">&uarr;</a></span></h4>
 
-<pre class="ruby"><span class="ruby-identifier">require</span> <span class="ruby-string">&#39;attribool&#39;</span>
+<pre class="ruby"><span class="ruby-identifier">require</span> <span class="ruby-string">&quot;attribool&quot;</span>
 
 <span class="ruby-keyword">class</span> <span class="ruby-constant">Person</span>
   <span class="ruby-identifier">extend</span> <span class="ruby-constant">Attribool</span>
@@ -157,14 +163,14 @@ bundle exec rake install</pre>
 <span class="ruby-identifier">person</span>.<span class="ruby-identifier">named?</span>
 <span class="ruby-comment"># false, because @name is nil.</span>
 
-<span class="ruby-identifier">person</span>.<span class="ruby-identifier">name</span> = <span class="ruby-string">&#39;John Smith&#39;</span>
+<span class="ruby-identifier">person</span>.<span class="ruby-identifier">name</span> = <span class="ruby-string">&quot;John Smith&quot;</span>
 <span class="ruby-identifier">person</span>.<span class="ruby-identifier">named?</span>
 <span class="ruby-comment"># true, because @name is truthy.</span>
 </pre>
 
 <h4 id="label-A+bool_reader+with+method+name+and+conditional">A bool_reader with method name and conditional<span><a href="#label-A+bool_reader+with+method+name+and+conditional">&para;</a> <a href="#top">&uarr;</a></span></h4>
 
-<pre class="ruby"><span class="ruby-identifier">require</span> <span class="ruby-string">&#39;attribool&#39;</span>
+<pre class="ruby"><span class="ruby-identifier">require</span> <span class="ruby-string">&quot;attribool&quot;</span>
 
 <span class="ruby-keyword">class</span> <span class="ruby-constant">Person</span>
   <span class="ruby-identifier">extend</span> <span class="ruby-constant">Attribool</span>
@@ -187,9 +193,11 @@ bundle exec rake install</pre>
 <span class="ruby-comment"># true, because @age is greater than 18.</span>
 </pre>
 
+<p>Note that, the result of the proc will also be coerced into a boolean, so the condition can just return a truthy or falsey value.</p>
+
 <h4 id="label-Assigning+more+than+one+bool_reader+with+a+method+name+at+once">Assigning more than one bool_reader with a method name at once<span><a href="#label-Assigning+more+than+one+bool_reader+with+a+method+name+at+once">&para;</a> <a href="#top">&uarr;</a></span></h4>
 
-<pre class="ruby"><span class="ruby-identifier">require</span> <span class="ruby-string">&#39;attribool&#39;</span>
+<pre class="ruby"><span class="ruby-identifier">require</span> <span class="ruby-string">&quot;attribool&quot;</span>
 
 <span class="ruby-keyword">class</span> <span class="ruby-constant">Person</span>
   <span class="ruby-identifier">extend</span> <span class="ruby-constant">Attribool</span>
@@ -210,14 +218,14 @@ bundle exec rake install</pre>
 <span class="ruby-identifier">person</span>.<span class="ruby-identifier">has_age?</span>
 <span class="ruby-comment"># true, because @age is not nil.</span>
 
-<span class="ruby-identifier">person</span>.<span class="ruby-identifier">name</span> = <span class="ruby-string">&#39;Bob&#39;</span>
+<span class="ruby-identifier">person</span>.<span class="ruby-identifier">name</span> = <span class="ruby-string">&quot;Bob&quot;</span>
 <span class="ruby-identifier">person</span>.<span class="ruby-identifier">has_name?</span>
 <span class="ruby-comment"># true, because @name is not nil.</span>
 </pre>
 
 <h4 id="label-Standard+bool_accessor">Standard bool_accessor<span><a href="#label-Standard+bool_accessor">&para;</a> <a href="#top">&uarr;</a></span></h4>
 
-<pre class="ruby"><span class="ruby-identifier">require</span> <span class="ruby-string">&#39;attribool&#39;</span>
+<pre class="ruby"><span class="ruby-identifier">require</span> <span class="ruby-string">&quot;attribool&quot;</span>
 
 <span class="ruby-keyword">class</span> <span class="ruby-constant">Person</span>
   <span class="ruby-identifier">extend</span> <span class="ruby-constant">Attribool</span>
@@ -237,9 +245,9 @@ bundle exec rake install</pre>
 
 <h4 id="label-Standard+bool_writer">Standard bool_writer<span><a href="#label-Standard+bool_writer">&para;</a> <a href="#top">&uarr;</a></span></h4>
 
-<p>In most cases where you&#39;d use a <code>bool_writer</code>, you&#39;d probably want to just use <code>bool_accessor</code>. This example is to show that, even when using <code>bool_accessor</code>, the value is coerced to a boolean when the value is set by <code>bool_writer</code>.</p>
+<p>In most cases where you’d use a <code>bool_writer</code>, you’d probably want to just use <code>bool_accessor</code>. This example is to show that, even when using <code>bool_accessor</code>, the value is coerced to a boolean when the value is set by <code>bool_writer</code>.</p>
 
-<pre class="ruby"><span class="ruby-identifier">require</span> <span class="ruby-string">&#39;attribool&#39;</span>
+<pre class="ruby"><span class="ruby-identifier">require</span> <span class="ruby-string">&quot;attribool&quot;</span>
 
 <span class="ruby-keyword">class</span> <span class="ruby-constant">Person</span>
   <span class="ruby-identifier">extend</span> <span class="ruby-constant">Attribool</span>
@@ -252,25 +260,25 @@ bundle exec rake install</pre>
 <span class="ruby-identifier">person</span>.<span class="ruby-identifier">living</span>
 <span class="ruby-comment"># nil</span>
 
-<span class="ruby-identifier">person</span>.<span class="ruby-identifier">living</span> = <span class="ruby-string">&#39;blah&#39;</span>
+<span class="ruby-identifier">person</span>.<span class="ruby-identifier">living</span> = <span class="ruby-string">&quot;blah&quot;</span>
 <span class="ruby-identifier">person</span>.<span class="ruby-identifier">living</span>
-<span class="ruby-comment"># true, because &#39;blah&#39; was coerced into a boolean because strings are truthy.</span>
+<span class="ruby-comment"># true, because &quot;blah&quot; was coerced into a boolean because strings are truthy.</span>
 </pre>
 
 <h2 id="label-Reporting+Bugs+and+Requesting+Features">Reporting Bugs and Requesting Features<span><a href="#label-Reporting+Bugs+and+Requesting+Features">&para;</a> <a href="#top">&uarr;</a></span></h2>
 
-<p>If you have an idea or find a bug, please <a href="https://github.com/evanthegrayt/attribool/issues/new">create an issue</a>. Just make sure the topic doesn&#39;t already exist. Better yet, you can always submit a Pull Request.</p>
+<p>If you have an idea or find a bug, please <a href="https://github.com/evanthegrayt/attribool/issues/new">create an issue</a>. Just make sure the topic doesn’t already exist. Better yet, you can always submit a Pull Request.</p>
 
 <h2 id="label-Self-Promotion">Self-Promotion<span><a href="#label-Self-Promotion">&para;</a> <a href="#top">&uarr;</a></span></h2>
 
-<p>I do these projects for fun, and I enjoy knowing that they&#39;re helpful to people. Consider starring <a href="https://github.com/evanthegrayt/attribool">the repository</a> if you like it! If you love it, follow me <a href="https://github.com/evanthegrayt">on GitHub</a>!</p>
+<p>I do these projects for fun, and I enjoy knowing that they’re helpful to people. Consider starring <a href="https://github.com/evanthegrayt/attribool">the repository</a> if you like it! If you love it, follow me <a href="https://github.com/evanthegrayt">on GitHub</a>!</p>
 
 </main>
 
 
 <footer id="validator-badges" role="contentinfo">
   <p><a href="https://validator.w3.org/check/referer">Validate</a>
-  <p>Generated by <a href="https://ruby.github.io/rdoc/">RDoc</a> 6.3.1.
+  <p>Generated by <a href="https://ruby.github.io/rdoc/">RDoc</a> 6.4.0.
   <p>Based on <a href="http://deveiate.org/projects/Darkfish-RDoc/">Darkfish</a> by <a href="http://deveiate.org">Michael Granger</a>.
 </footer>
 
