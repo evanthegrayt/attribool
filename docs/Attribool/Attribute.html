@@ -73,7 +73,6 @@
 
   <ul class="link-list" role="directory">
     <li ><a href="#method-c-new">::new</a>
-    <li ><a href="#method-c-validate_method_name">::validate_method_name</a>
   </ul>
 </div>
 
@@ -164,53 +163,21 @@
         </div>
 
         <div class="method-description">
-          <p>Create an <a href="Attribute.html"><code>Attribute</code></a>. The attribute can either be a String or a Symbol, and can also start with an “@”, or not.</p>
+          <p>Create an <a href="Attribute.html"><code>Attribute</code></a>. The attribute can either be a String or a Symbol.</p>
 
 <p>@param [String, Symbol] attribute</p>
 
 <p>@param [String, Symbol, Proc, nil] reader_name</p>
 
           <div class="method-source-code" id="new-source">
-            <pre><span class="ruby-comment"># File lib/attribool/attribute.rb, line 59</span>
+            <pre><span class="ruby-comment"># File lib/attribool/attribute.rb, line 38</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">initialize</span>(<span class="ruby-identifier">attribute</span>, <span class="ruby-identifier">reader_name</span> = <span class="ruby-keyword">nil</span>)
-  <span class="ruby-identifier">attribute</span>.<span class="ruby-identifier">to_s</span>.<span class="ruby-identifier">tap</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">a</span><span class="ruby-operator">|</span>
-    <span class="ruby-ivar">@ivar</span> = <span class="ruby-identifier">a</span>.<span class="ruby-identifier">start_with?</span>(<span class="ruby-string">&#39;@&#39;</span>) <span class="ruby-operator">?</span> <span class="ruby-identifier">a</span> <span class="ruby-operator">:</span> <span class="ruby-node">&quot;@#{a}&quot;</span>
-    <span class="ruby-ivar">@name</span> = <span class="ruby-ivar">@ivar</span>.<span class="ruby-identifier">delete_prefix</span>(<span class="ruby-string">&#39;@&#39;</span>)
-    <span class="ruby-ivar">@reader</span> =
-      <span class="ruby-keyword">case</span> <span class="ruby-identifier">reader_name</span>
-      <span class="ruby-keyword">when</span> <span class="ruby-constant">Proc</span> <span class="ruby-keyword">then</span> <span class="ruby-identifier">reader_name</span>.<span class="ruby-identifier">call</span>(<span class="ruby-identifier">name</span>)
-      <span class="ruby-keyword">when</span> <span class="ruby-keyword">nil</span> <span class="ruby-keyword">then</span> <span class="ruby-node">&quot;#{name}?&quot;</span>
-      <span class="ruby-keyword">else</span> <span class="ruby-identifier">reader_name</span>.<span class="ruby-identifier">to_s</span>
-      <span class="ruby-keyword">end</span>
+  <span class="ruby-identifier">attribute</span>.<span class="ruby-identifier">to_s</span>.<span class="ruby-identifier">then</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">a</span><span class="ruby-operator">|</span>
+    <span class="ruby-ivar">@name</span> = <span class="ruby-identifier">a</span>
+    <span class="ruby-ivar">@ivar</span> = <span class="ruby-node">&quot;@#{a}&quot;</span>
+    <span class="ruby-ivar">@reader</span> = <span class="ruby-constant">Attribool</span><span class="ruby-operator">::</span><span class="ruby-constant">ReaderName</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">name</span>, <span class="ruby-identifier">reader_name</span>).<span class="ruby-identifier">to_s</span>
     <span class="ruby-ivar">@writer</span> = <span class="ruby-node">&quot;#{name}=&quot;</span>
   <span class="ruby-keyword">end</span>
-<span class="ruby-keyword">end</span></pre>
-          </div>
-        </div>
-
-
-      </div>
-
-      <div id="method-c-validate_method_name" class="method-detail ">
-        <div class="method-heading">
-          <span class="method-name">validate_method_name</span><span
-            class="method-args">(method_name, number_of_attributes)</span>
-          <span class="method-click-advice">click to toggle source</span>
-        </div>
-
-        <div class="method-description">
-          <p>Ensures that if multiple attributes are being defined, and <code>method_name</code> is provided, that <code>method_name</code> is a <code>Proc</code>.</p>
-
-<p>@param [Integer] number_of_attributes</p>
-
-<p>@param [String, Symbol, Proc] method_name</p>
-
-          <div class="method-source-code" id="validate_method_name-source">
-            <pre><span class="ruby-comment"># File lib/attribool/attribute.rb, line 39</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">validate_method_name</span>(<span class="ruby-identifier">method_name</span>, <span class="ruby-identifier">number_of_attributes</span>)
-  <span class="ruby-keyword">return</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">number_of_attributes</span> <span class="ruby-operator">==</span> <span class="ruby-value">1</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">nil_or_proc?</span>(<span class="ruby-identifier">method_name</span>)
-
-  <span class="ruby-identifier">raise</span> <span class="ruby-constant">ArgumentError</span>, <span class="ruby-string">&quot;Must use a Proc when creating multiple methods&quot;</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
         </div>
@@ -226,7 +193,7 @@
 
 <footer id="validator-badges" role="contentinfo">
   <p><a href="https://validator.w3.org/check/referer">Validate</a>
-  <p>Generated by <a href="https://ruby.github.io/rdoc/">RDoc</a> 6.3.1.
+  <p>Generated by <a href="https://ruby.github.io/rdoc/">RDoc</a> 6.4.0.
   <p>Based on <a href="http://deveiate.org/projects/Darkfish-RDoc/">Darkfish</a> by <a href="http://deveiate.org">Michael Granger</a>.
 </footer>
 
