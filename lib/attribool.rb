@@ -1,10 +1,12 @@
 # frozen_string_literal: true
 
 require_relative "attribool/version"
+require_relative "attribool/value"
 require_relative "attribool/attribute"
 require_relative "attribool/reader_name"
 require_relative "attribool/attribute_list"
 require_relative "attribool/validators/validator"
+require_relative "attribool/validators/condition_validator"
 require_relative "attribool/validators/method_name_validator"
 require_relative "attribool/validators/nil_attribute_validator"
 require_relative "attribool/validators/strict_boolean_validator"
@@ -47,7 +49,7 @@ module Attribool
         instance_variable_get(attribute.ivar).then do |value|
           Validators::NilAttributeValidator.validate(attribute.ivar, value, allow_nil)
 
-          !!(condition ? condition.call(value) : value)
+          Value.new(value, condition).to_boolean
         end
       end
     end
