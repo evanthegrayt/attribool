@@ -1,11 +1,12 @@
 # frozen_string_literal: true
 
 module Attribool::Validators
-  class StrictBooleanValidator < Attribool::Validators::Validator
+  class StrictBooleanValidator
+    include Validator
+
     def initialize(value, strict)
       @value = value
       @strict = strict
-      super
     end
 
     def valid?

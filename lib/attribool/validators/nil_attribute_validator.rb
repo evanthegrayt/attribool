@@ -1,12 +1,13 @@
 # frozen_string_literal: true
 
 module Attribool::Validators
-  class NilAttributeValidator < Attribool::Validators::Validator
+  class NilAttributeValidator
+    include Validator
+
     def initialize(ivar, value, allow_nil)
       @ivar = ivar
       @value = value
       @allow_nil = allow_nil
-      super
     end
 
     def valid?
