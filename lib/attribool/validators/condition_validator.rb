@@ -1,10 +1,11 @@
 # frozen_string_literal: true
 
 module Attribool::Validators
-  class ConditionValidator < Attribool::Validators::Validator
+  class ConditionValidator
+    include Validator
+
     def initialize(condition)
       @condition = condition
-      super
     end
 
     def valid?

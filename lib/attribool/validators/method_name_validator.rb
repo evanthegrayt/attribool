@@ -4,11 +4,12 @@ module Attribool::Validators
   ##
   # Ensures that if multiple attributes are being defined, and +method_name+
   # is provided, that +method_name+ is a +Proc+.
-  class MethodNameValidator < Attribool::Validators::Validator
+  class MethodNameValidator
+    include Validator
+
     def initialize(method_name, number_of_attributes)
       @method_name = method_name
       @number_of_attributes = number_of_attributes
-      super
     end
 
     def valid?
