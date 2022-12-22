@@ -67,7 +67,7 @@ module Attribool
       define_method(attribute.writer) do |value|
         Validators::StrictBooleanValidator.validate(value, strict)
 
-        instance_variable_set(attribute.ivar, !!value)
+        instance_variable_set(attribute.ivar, Value.new(value).to_boolean)
       end
     end
   end
