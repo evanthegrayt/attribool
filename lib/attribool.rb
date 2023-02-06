@@ -5,7 +5,7 @@ require_relative "attribool/value"
 require_relative "attribool/attribute"
 require_relative "attribool/reader_name"
 require_relative "attribool/attribute_list"
-require_relative "attribool/validators/validator"
+require_relative "attribool/validator_service"
 require_relative "attribool/validators/condition_validator"
 require_relative "attribool/validators/method_name_validator"
 require_relative "attribool/validators/nil_attribute_validator"
@@ -42,12 +42,12 @@ module Attribool
   #
   # @kwarg [Symbol, String, Proc] method_name
   def bool_reader(*attributes, allow_nil: true, method_name: nil, condition: nil)
-    Validators::MethodNameValidator.validate(method_name, attributes.size)
+    ValidatorService.call(:method_name, method_name, attributes.size)
 
     AttributeList.new(*attributes, method_name: method_name).each do |attribute|
       define_method(attribute.reader) do
         instance_variable_get(attribute.ivar).then do |value|
-          Validators::NilAttributeValidator.validate(attribute.ivar, value, allow_nil)
+          ValidatorService.call(:nil_attribute, attribute.ivar, value, allow_nil)
 
           Value.new(value, condition).to_boolean
         end
@@ -65,7 +65,7 @@ module Attribool
   def bool_writer(*attributes, strict: false)
     AttributeList.new(*attributes).each do |attribute|
       define_method(attribute.writer) do |value|
-        Validators::StrictBooleanValidator.validate(value, strict)
+        ValidatorService.call(:strict_boolean, value, strict)
 
         instance_variable_set(attribute.ivar, Value.new(value).to_boolean)
       end

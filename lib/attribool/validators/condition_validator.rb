@@ -2,8 +2,6 @@
 
 module Attribool::Validators
   class ConditionValidator
-    include Validator
-
     def initialize(condition)
       @condition = condition
     end

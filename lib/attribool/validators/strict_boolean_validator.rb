@@ -2,8 +2,6 @@
 
 module Attribool::Validators
   class StrictBooleanValidator
-    include Validator
-
     def initialize(value, strict)
       @value = value
       @strict = strict
