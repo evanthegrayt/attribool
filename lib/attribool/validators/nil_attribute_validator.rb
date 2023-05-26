@@ -2,8 +2,6 @@
 
 module Attribool::Validators
   class NilAttributeValidator
-    include Validator
-
     def initialize(ivar, value, allow_nil)
       @ivar = ivar
       @value = value

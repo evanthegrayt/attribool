@@ -27,6 +27,7 @@ Gem::Specification.new do |spec|
   spec.bindir = "bin"
   spec.executables = spec.files.grep(%r{^bin/}) { |f| File.basename(f) }
   spec.require_paths = ["lib"]
+  spec.add_development_dependency "pry"
   spec.add_development_dependency "rake", "~> 13.0", ">= 13.0.1"
   spec.add_development_dependency "simplecov"
   spec.add_development_dependency "standard"

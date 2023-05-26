@@ -1,20 +1,19 @@
 # frozen_string_literal: true
 
 require_relative "../../test_helper"
-require_relative "../../../lib/attribool/validators/method_name_validator"
+require_relative "../../../lib/attribool/validators/condition_validator"
 
 module Attribool::Validators
-  class MethodNameValidatorTest < Test::Unit::TestCase
+  class ConditionTest < Test::Unit::TestCase
     def setup
-      @validator = Attribool::Validators::MethodNameValidator
+      @validator = Attribool::Validators::ConditionValidator
+      @validator_sym = :condition
       @valid_argument_permutations = [
-        [:x, 1],
-        [nil, 2],
-        [->(x) { x }, 2]
+        [nil],
+        [proc {}]
       ]
       @invalid_argument_permutations = [
-        [-> {}, 2],
-        [->(x, y) { "#{x}#{y}" }, 2]
+        [:x]
       ]
       @error_class = ArgumentError
     end
@@ -27,14 +26,12 @@ module Attribool::Validators
 
     def test_validate
       @valid_argument_permutations.each do |args|
-        assert_nothing_raised { @validator.validate(*args) }
-        assert_nothing_raised { @validator.new(*args).validate }
+        assert_nothing_raised { Attribool::ValidatorService.call(@validator_sym, *args) }
         assert(@validator.new(*args).valid?)
       end
 
       @invalid_argument_permutations.each do |args|
-        assert_raise(@error_class) { @validator.validate(*args) }
-        assert_raise(@error_class) { @validator.new(*args).validate }
+        assert_raise(@error_class) { Attribool::ValidatorService.call(@validator_sym, *args) }
         refute(@validator.new(*args).valid?)
       end
     end

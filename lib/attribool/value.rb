@@ -3,7 +3,7 @@
 module Attribool
   class Value
     def initialize(value, condition = nil)
-      Validators::ConditionValidator.validate(condition)
+      ValidatorService.call(:condition, condition)
       @value = value
       @condition = condition
     end
