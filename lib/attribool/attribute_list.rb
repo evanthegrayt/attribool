@@ -8,13 +8,24 @@ module Attribool
     include Enumerable
 
     ##
-    # Generate the list.
+    # Create an +AttributeList+ from a list of attribute names.
     #
-    # @param [String, Symbol] *attributes
+    # @param [String, Symbol] *attribute_names
     #
     # @kwarg [nil, String, Symbol, Proc] method_name
-    def initialize(*attributes, method_name: nil)
-      @entries = attributes.map { |a| Attribool::Attribute.new(a, method_name) }
+    #
+    # @return [AttributeList]
+    def self.build(*attribute_names, method_name: nil)
+      new(*attribute_names.map { |a| Attribool::Attribute.new(a, method_name) })
+    end
+
+    ##
+    # Construct the list.
+    #
+    # @param [String, Symbol] *attributes
+    def initialize(*attributes)
+      ValidatorService.call(:attribute_list, *attributes)
+      @entries = attributes
     end
 
     ##
