@@ -10,6 +10,7 @@ require_relative "attribool/validators/condition_validator"
 require_relative "attribool/validators/method_name_validator"
 require_relative "attribool/validators/nil_attribute_validator"
 require_relative "attribool/validators/strict_boolean_validator"
+require_relative "attribool/validators/attribute_list_validator"
 
 ##
 # Adds macros for dealing with boolean attributes.
@@ -44,7 +45,7 @@ module Attribool
   def bool_reader(*attributes, allow_nil: true, method_name: nil, condition: nil)
     ValidatorService.call(:method_name, method_name, attributes.size)
 
-    AttributeList.new(*attributes, method_name: method_name).each do |attribute|
+    AttributeList.build(*attributes, method_name: method_name).each do |attribute|
       define_method(attribute.reader) do
         instance_variable_get(attribute.ivar).then do |value|
           ValidatorService.call(:nil_attribute, attribute.ivar, value, allow_nil)
@@ -63,7 +64,7 @@ module Attribool
   #
   # @kwarg [Boolean] strict
   def bool_writer(*attributes, strict: false)
-    AttributeList.new(*attributes).each do |attribute|
+    AttributeList.build(*attributes).each do |attribute|
       define_method(attribute.writer) do |value|
         ValidatorService.call(:strict_boolean, value, strict)
 
