@@ -21,14 +21,14 @@ module Attribool
     # Patch version.
     #
     # @return [Integer]
-    PATCH = 2
+    PATCH = 3
 
     module_function
 
     ##
     # Version as +[MAJOR, MINOR, PATCH]+
     #
-    # @return [Array]
+    # @return [Array<Integer>]
     def to_a
       [MAJOR, MINOR, PATCH]
     end
