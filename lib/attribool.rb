@@ -3,6 +3,7 @@
 require_relative "attribool/version"
 require_relative "attribool/value"
 require_relative "attribool/attribute"
+require_relative "attribool/validators"
 require_relative "attribool/reader_name"
 require_relative "attribool/attribute_list"
 require_relative "attribool/validator_service"
