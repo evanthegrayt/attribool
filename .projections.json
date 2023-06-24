@@ -1,0 +1,40 @@
+{
+  "lib/attribool/validators/*_validator.rb": {
+    "command": "validator",
+    "related": "lib/attribool/validator_service.rb",
+    "alternate": "test/attribool/validators/{}_test.rb",
+    "template": [
+      "# frozen_string_literal: true",
+      "",
+      "module Attribool::Validators",
+      "  ##",
+      "  # Ensures that {blank} is validated.",
+      "  class {capitalize|camelcase}Validator",
+      "    ##",
+      "    # Construct the validator.",
+      "    #",
+      "    # @param [Todo] todo",
+      "    def initialize(todo)",
+      "      @todo = todo",
+      "    end",
+      "",
+      "    ##",
+      "    # Todo?",
+      "    #",
+      "    # @return [Boolean]",
+      "    def valid?",
+      "      # TODO",
+      "    end",
+      "",
+      "    ##",
+      "    # The exception to raise if validations fail.",
+      "    #",
+      "    # @return [TodoError] the exception with message",
+      "    def error",
+      "      TodoError.new(\"todo\")",
+      "    end",
+      "  end",
+      "end"
+    ]
+  }
+}

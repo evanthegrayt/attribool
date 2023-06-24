@@ -54,5 +54,5 @@ module Attribool
   # The version, as a string.
   #
   # @return [String]
-  VERSION = Version.to_s.freeze
+  VERSION = Version.to_s
 end
