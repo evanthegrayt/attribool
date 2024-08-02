@@ -1,8 +1,8 @@
-Fri, 23 Jun 2023 20:19:22 -0500
+Thu, 01 Aug 2024 21:32:09 -0500
 README.md	Mon, 19 Dec 2022 12:45:16 -0600
 lib/attribool.rb	Fri, 23 Jun 2023 20:19:15 -0500
 lib/attribool/attribute.rb	Tue, 20 Dec 2022 21:16:05 -0600
-lib/attribool/attribute_list.rb	Fri, 23 Jun 2023 20:19:15 -0500
+lib/attribool/attribute_list.rb	Thu, 01 Aug 2024 21:32:05 -0500
 lib/attribool/reader_name.rb	Mon, 19 Dec 2022 12:45:16 -0600
 lib/attribool/validator_service.rb	Fri, 23 Jun 2023 20:19:15 -0500
 lib/attribool/validators.rb	Fri, 23 Jun 2023 20:19:15 -0500
@@ -12,4 +12,4 @@ lib/attribool/validators/method_name_validator.rb	Fri, 23 Jun 2023 20:19:15 -050
 lib/attribool/validators/nil_attribute_validator.rb	Fri, 23 Jun 2023 20:19:15 -0500
 lib/attribool/validators/strict_boolean_validator.rb	Fri, 23 Jun 2023 20:19:15 -0500
 lib/attribool/value.rb	Fri, 23 Jun 2023 20:19:15 -0500
-lib/attribool/version.rb	Fri, 23 Jun 2023 20:19:15 -0500
+lib/attribool/version.rb	Thu, 01 Aug 2024 21:32:05 -0500
