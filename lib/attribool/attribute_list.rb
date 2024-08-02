@@ -1,11 +1,23 @@
 # frozen_string_literal: true
 
+require "forwardable"
+
 module Attribool
   ##
   # Enumerable class that generates a list of attributes from a list of strings
   # or symbols.
   class AttributeList
     include Enumerable
+    extend Forwardable
+
+    ##
+    # :method: each
+    # Yield every entry in the list to a block.
+    #
+    # @param [block] &block
+    #
+    # @return [Enumerable]
+    def_delegators :@entries, :each
 
     ##
     # Create an +AttributeList+ from a list of attribute names.
@@ -26,16 +38,6 @@ module Attribool
     def initialize(*attributes)
       ValidatorService.call(:attribute_list, *attributes)
       @entries = attributes
-    end
-
-    ##
-    # Yield every entry in the list to a block.
-    #
-    # @param [block] &block
-    #
-    # @return [Enumerable]
-    def each(&block)
-      @entries.each(&block)
     end
   end
 end
