@@ -74,6 +74,14 @@
 </div>
 
     
+<div id="extends-section" class="nav-section">
+  <h3>Extended With Modules</h3>
+
+  <ul class="link-list">
+    <li><span class="extend">Forwardable</span>
+  </ul>
+</div>
+
     
 <!-- Method Quickref -->
 <div id="method-list-section" class="nav-section">
@@ -128,7 +136,7 @@
 <p>@return [AttributeList]</p>
 
           <div class="method-source-code" id="build-source">
-            <pre><span class="ruby-comment"># File lib/attribool/attribute_list.rb, line 18</span>
+            <pre><span class="ruby-comment"># File lib/attribool/attribute_list.rb, line 30</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">build</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">attribute_names</span>, <span class="ruby-value">method_name:</span> <span class="ruby-keyword">nil</span>)
   <span class="ruby-identifier">new</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">attribute_names</span>.<span class="ruby-identifier">map</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">a</span><span class="ruby-operator">|</span> <span class="ruby-constant">Attribool</span><span class="ruby-operator">::</span><span class="ruby-constant">Attribute</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">a</span>, <span class="ruby-identifier">method_name</span>) })
 <span class="ruby-keyword">end</span></pre>
@@ -151,7 +159,7 @@
 <p>@param [String, Symbol] *attributes</p>
 
           <div class="method-source-code" id="new-source">
-            <pre><span class="ruby-comment"># File lib/attribool/attribute_list.rb, line 26</span>
+            <pre><span class="ruby-comment"># File lib/attribool/attribute_list.rb, line 38</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">initialize</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">attributes</span>)
   <span class="ruby-constant">ValidatorService</span>.<span class="ruby-identifier">call</span>(<span class="ruby-value">:attribute_list</span>, <span class="ruby-operator">*</span><span class="ruby-identifier">attributes</span>)
   <span class="ruby-ivar">@entries</span> = <span class="ruby-identifier">attributes</span>
@@ -172,7 +180,7 @@
       <div id="method-i-each" class="method-detail ">
         <div class="method-heading">
           <span class="method-name">each</span><span
-            class="method-args">(&amp;block)</span>
+            class="method-args">()</span>
           <span class="method-click-advice">click to toggle source</span>
         </div>
 
@@ -184,10 +192,9 @@
 <p>@return [Enumerable]</p>
 
           <div class="method-source-code" id="each-source">
-            <pre><span class="ruby-comment"># File lib/attribool/attribute_list.rb, line 37</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">each</span>(<span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
-  <span class="ruby-ivar">@entries</span>.<span class="ruby-identifier">each</span>(<span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
-<span class="ruby-keyword">end</span></pre>
+            <pre><span class="ruby-comment"># File lib/attribool/attribute_list.rb, line 20</span>
+<span class="ruby-identifier">def_delegators</span> <span class="ruby-value">:@entries</span>, <span class="ruby-value">:each</span>
+</pre>
           </div>
         </div>
 
