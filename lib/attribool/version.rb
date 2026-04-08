@@ -21,7 +21,7 @@ module Attribool
     # Patch version.
     #
     # @return [Integer]
-    PATCH = 5
+    PATCH = 6
 
     module_function
 
