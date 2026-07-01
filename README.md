@@ -1,7 +1,7 @@
 # Attribool
 [![Build Status](https://img.shields.io/endpoint.svg?url=https%3A%2F%2Factions-badge.atrox.dev%2Fevanthegrayt%2Fattribool%2Fbadge%3Fref%3Dmaster&style=flat)](https://actions-badge.atrox.dev/evanthegrayt/attribool/goto?ref=master)
+[![Language: Ruby](https://img.shields.io/static/v1?label=language&message=Ruby&color=CC342D&style=flat&logo=ruby&logoColor=CC342D)](https://www.ruby-lang.org/)
 [![Gem Version](https://img.shields.io/gem/v/attribool.svg)](https://rubygems.org/gems/attribool)
-![Language: Ruby](https://img.shields.io/static/v1?label=language&message=Ruby&color=CC342D&style=flat&logo=ruby&logoColor=CC342D)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 Ruby macros for creating boolean methods for attributes that may or may not be
